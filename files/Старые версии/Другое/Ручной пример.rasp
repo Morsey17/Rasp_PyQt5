@@ -1,0 +1,202 @@
+4
+3
+3
+2
+3
+
+
+
+
+
+
+
+
+
+
+2
+3
+2
+2
+1
+
+
+2
+2
+2
+2
+1
+1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10
+Õ
+Õ0
+8 8
+Ô
+Ô9
+7 7 7 7 8 8
+È
+È8
+7 7 8 8
+È
+È7
+5 5 5
+Ð
+Ð6
+8 8
+Ð
+Ð5
+5(1) 7 7
+Ð
+Ð4
+5 5 5(2)
+Ì
+Ì3
+7(1) 8 8
+Ì
+Ì2
+5 7(1)
+Ì
+Ì1
+5 5 7
+10
+Õ
+Õ0
+8 8
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ô
+Ô9
+7 7 7 7 8 8
+8
+True
+True
+True
+True
+True
+True
+True
+True
+È
+È8
+7 7 8 8
+8
+True
+True
+True
+True
+True
+True
+True
+True
+È
+È7
+5 5 5
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ð
+Ð6
+8 8
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ð
+Ð5
+5(1) 7 7
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ð
+Ð4
+5 5 5(2)
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ì
+Ì3
+7(1) 8 8
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ì
+Ì2
+5 7(1)
+8
+True
+True
+True
+True
+True
+True
+True
+True
+Ì
+Ì1
+5 5 7
+8
+True
+True
+True
+True
+True
+True
+True
+True

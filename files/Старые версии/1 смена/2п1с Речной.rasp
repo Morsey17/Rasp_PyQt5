@@ -1,0 +1,679 @@
+6
+2
+5
+3
+4
+
+
+
+3
+5
+3
+4
+
+
+
+3
+3
+2
+5
+2
+
+
+4
+3
+2
+4
+1
+1
+1
+3
+3
+2
+4
+1
+1
+1
+3
+3
+2
+4
+1
+1
+1
+3
+3
+2
+4
+1
+1
+1
+33
+О
+Изохов В.А.
+11 11 11
+О
+Лутченко В.Н.
+8 8 8 8
+О
+Воинова В.В.
+9 9 9 10 10 10
+М
+Ширшова И.В.
+8
+М
+Иванова О.П.
+10 10 10
+М
+Холодов М.В.
+8 8 8
+М
+Рымарь Н.И.
+5 5
+М
+Ласкевич А.А.
+9 9 9
+М
+Костина О.Е.
+6 6 6
+М
+Елагин В.Н.
+7 7(3)
+М
+Горохова И.Ю.
+11 11 11
+М
+Волохова Т.А.
+7 7(2)
+Р
+Ярина О.В.
+10 10 10
+Р
+Рябикина Ф.С.
+8 8 8
+Р
+Калинченго Л.Г.
+11 11 11
+Р
+Заболотная И.А.
+6 6 6(1)
+Р
+Буслаева А.В.
+8
+Р
+Волокитина А.Н.
+6(1) 9 9 9
+Р
+Климова В.Е.
+5 5
+Р
+Алексеева Е.Н.
+7 7 7 6(3)
+Ф
+Фальковский А.В.
+7 7 7
+Ф
+Мамеева-Шварцман И.М.
+11 11 11
+Ф
+Ваулина Т.В.
+8 8 8 8
+Ф
+Ибрагимов А.Э.
+9 9 9 10 10 10
+И
+Сошнина Е.Г.
+10 10 10
+И
+Романова В.В.
+8 8 8 8
+И
+Плехова О.Г.
+11 11 11
+И
+Мерзлякова О.А.
+7 7 7
+И
+Ковалёва В.А.
+6 6 6
+И
+Гурова Ю.С.
+5 5 9 9 9
+Х
+Трубаева В.В.
+8 8 8 9
+Х
+Соболева С.Ю.
+10 10 10 8
+Х
+Кайгородцева Н.Н.
+9 9 11 11 11
+33
+О
+Изохов В.А.
+11 11 11
+12
+False
+False
+False
+False
+True
+True
+True
+True
+False
+False
+False
+False
+О
+Лутченко В.Н.
+8 8 8 8
+12
+False
+False
+False
+False
+False
+False
+True
+True
+False
+False
+True
+True
+О
+Воинова В.В.
+9 9 9 10 10 10
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Ширшова И.В.
+8
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Иванова О.П.
+10 10 10
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Холодов М.В.
+8 8 8
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Рымарь Н.И.
+5 5
+12
+True
+True
+True
+True
+False
+False
+True
+True
+False
+False
+True
+True
+М
+Ласкевич А.А.
+9 9 9
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Костина О.Е.
+6 6 6
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Елагин В.Н.
+7 7(3)
+12
+True
+True
+False
+False
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Горохова И.Ю.
+11 11 11
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+М
+Волохова Т.А.
+7 7(2)
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Ярина О.В.
+10 10 10
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Рябикина Ф.С.
+8 8 8
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Калинченго Л.Г.
+11 11 11
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Заболотная И.А.
+6 6 6(1)
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Буслаева А.В.
+8
+12
+False
+False
+False
+False
+False
+False
+True
+True
+True
+True
+True
+True
+Р
+Волокитина А.Н.
+6(1) 9 9 9
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Климова В.Е.
+5 5
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Р
+Алексеева Е.Н.
+7 7 7 6(3)
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Ф
+Фальковский А.В.
+7 7 7
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Ф
+Мамеева-Шварцман И.М.
+11 11 11
+12
+False
+False
+False
+False
+True
+True
+True
+True
+True
+True
+True
+True
+Ф
+Ваулина Т.В.
+8 8 8 8
+12
+False
+False
+False
+False
+True
+True
+True
+True
+True
+True
+True
+True
+Ф
+Ибрагимов А.Э.
+9 9 9 10 10 10
+12
+True
+False
+False
+False
+True
+True
+True
+True
+True
+True
+True
+True
+И
+Сошнина Е.Г.
+10 10 10
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+И
+Романова В.В.
+8 8 8 8
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+False
+True
+True
+И
+Плехова О.Г.
+11 11 11
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+И
+Мерзлякова О.А.
+7 7 7
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+И
+Ковалёва В.А.
+6 6 6
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+И
+Гурова Ю.С.
+5 5 9 9 9
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Х
+Трубаева В.В.
+8 8 8 9
+12
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Х
+Соболева С.Ю.
+10 10 10 8
+12
+True
+False
+True
+True
+True
+True
+True
+True
+True
+True
+True
+True
+Х
+Кайгородцева Н.Н.
+9 9 11 11 11
+12
+True
+True
+True
+True
+True
+True
+True
+True
+False
+False
+True
+True
