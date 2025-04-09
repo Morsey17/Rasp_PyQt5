@@ -7,17 +7,9 @@ import qt_load
 from rasp import *
 _translate = QtCore.QCoreApplication.translate
 
-class msg:
-    info = False
-    run = False
-    start = True
-    back = False
 
 
 
-color0 = "rgb(255, 255, 255)"
-color1 = "rgb(255, 255, 200)"
-color2 = "rgb(255, 255, 127)"
 
 letter = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С']
 
@@ -53,28 +45,16 @@ indicator_lbl_teach = ui.indicator_lbl_teach
 indicator_lbl_teach_u = ui.indicator_lbl_teach_u
 
 
-def clear_lbl():
-    for i in range(len(lbl_clas)):
-        indicator_lbl_clas[i] = 0
-        lbl_clas[i].setStyleSheet("background-color:" + color0)
-        lbl_clas_[i].setText(" ")
-        lbl_clas_[i].setStyleSheet("background-color:" + color0)
-        for j in range(len(indicator_lbl_clas_u[i])):
-            indicator_lbl_clas_u[i][j] = 0
-            lbl_clas_u[i][j].setStyleSheet("background-color:" + color0)
-    for i in range(len(lbl_teach)):
-        lbl_teach[i].setStyleSheet("background-color:" + color0)
-        lbl_teach_[i].setText(" ")
-        lbl_teach_[i].setStyleSheet("background-color:" + color0)
 
 
 def click(obj, tip):
-    if msg.run == False:
+    import visual_func
+    if G.run == False:
         type_click = 0
         I = 0
         J = 0
         if tip == 0:
-            clear_lbl()
+            visual_func.clear_lbl()
 
         stop = False
 
@@ -148,21 +128,30 @@ def click(obj, tip):
 
 
 def run_script():
-    clear_lbl()
-    msg.run = not msg.run
+    import visual_func
+    visual_func.clear_lbl()
+    G.run = not G.run
     G.steps = 10000
 
 
 def step_script():
-    clear_lbl()
-    msg.run = True
+    import visual_func
+    visual_func.clear_lbl()
+    G.run = True
     G.steps = 1
 
+def step100_script():
+    import visual_func
+    visual_func.clear_lbl()
+    G.run = True
+    G.steps = 100
+
 def back_script():
-    if msg.run == False:
-        clear_lbl()
-        msg.run = True
-        msg.back = True
+    if G.run == False:
+        import visual_func
+        visual_func.clear_lbl()
+        G.run = True
+        G.back = True
         G.steps = 1
 
 def load_clas_widget():
@@ -213,7 +202,8 @@ def load_clas_widget():
         lbl_clas.append(QtWidgets.QLabel(grp_clas[-1]))
         layout_clas[-1].addWidget(lbl_clas[i], i, 0, 1, 1)
         indicator_lbl_clas.append(0)
-        lbl_clas[i].setText("  " + str(c.num) + "-" + str(c.name))
+        lbl_clas[i].setText(str(c.num) + "-" + str(c.name))
+        lbl_clas[i].setMinimumSize(35, 10)
         lbl_clas[i].setAlignment(QtCore.Qt.AlignCenter)
 
         lbl_clas[i].installEventFilter(ui.tab_3)
@@ -221,6 +211,7 @@ def load_clas_widget():
         lbl_clas_.append(QtWidgets.QLabel(grp_clas_[-1]))
         layout_clas_[-1].addWidget(lbl_clas_[i], i, 0, 1, 1)
         lbl_clas_[i].setText(" ")
+        lbl_clas_[i].setMinimumSize(40, 10)
         lbl_clas_[i].setAlignment(QtCore.Qt.AlignCenter)
 
         lbl_clas_u.append([])
@@ -234,6 +225,7 @@ def load_clas_widget():
                 layout_clas_u[-1][d].addWidget(lbl_clas_u[i][I], len(lbl_clas_u) - 1, i1, 1, 1)
                 lbl_clas_u[i][I].setObjectName("label" + str(i) + "_" + str(I))
                 lbl_clas_u[i][I].setText(_translate("MainWindow", "--"))
+                lbl_clas_u[i][I].setMinimumSize(35, 10)
 
                 lbl_clas_u[i][I].setAlignment(QtCore.Qt.AlignCenter)
 
@@ -294,7 +286,7 @@ def load_teach_widget():
         layout_teach[-1].addWidget(lbl_teach[i], i, 0, 1, 1)
         indicator_lbl_teach.append(0)
 
-        lbl_teach[i].setText(str(t.i) + ' ' + t.name)
+        lbl_teach[i].setText(str(t.i) + '  ' + t.name)
         lbl_teach[i].setAlignment(QtCore.Qt.AlignCenter)
 
         lbl_teach[i].installEventFilter(ui.tab_3)
@@ -302,6 +294,7 @@ def load_teach_widget():
         lbl_teach_.append(QtWidgets.QLabel(grp_teach_[-1]))
         layout_teach_[-1].addWidget(lbl_teach_[i], i, 0, 1, 1)
         lbl_teach_[i].setText(" ")
+        lbl_teach_[i].setMinimumSize(40, 10)
         lbl_teach_[i].setAlignment(QtCore.Qt.AlignCenter)
 
         lbl_teach_u.append([])
@@ -315,6 +308,7 @@ def load_teach_widget():
                 layout_teach_u[-1][d].addWidget(lbl_teach_u[i][I], len(lbl_teach_u) - 1, i1, 1, 1)
                 lbl_teach_u[i][I].setObjectName("label" + str(i) + "_" + str(I))
                 lbl_teach_u[i][I].setText(_translate("MainWindow", "--"))
+                lbl_teach_u[i][I].setMinimumSize(35, 10)
 
                 lbl_teach_u[i][I].setAlignment(QtCore.Qt.AlignCenter)
 
@@ -529,7 +523,7 @@ info_lt.setObjectName("grLt")
 info_lt.setSpacing(0)
 
 info_edit = []
-for i in range(10):
+for i in range(6):
     info_edit.append(QtWidgets.QLineEdit(info_grp))
     info_lt.addWidget(info_edit[i], 0, i, 1, 1)
 
@@ -552,19 +546,26 @@ butonStep.clicked.connect(step_script)
 butonStep.setText("Шаг")
 control_lt.addWidget(butonStep, 0, 2, 1, 1)
 
+butonStep1 = QtWidgets.QPushButton(control_grp)
+butonStep1.setObjectName("pushButt")
+butonStep1.clicked.connect(step100_script)
+butonStep1.setText("Шаг100")
+control_lt.addWidget(butonStep1, 0, 3, 1, 1)
+
 butonBack = QtWidgets.QPushButton(control_grp)
 butonBack.setObjectName("pushButt")
 butonBack.clicked.connect(back_script)
-butonBack.setText("Шаг")
-control_lt.addWidget(butonBack, 0, 3, 1, 1)
+butonBack.setText("Назад")
+control_lt.addWidget(butonBack, 0, 4, 1, 1)
 
-textEdit = QtWidgets.QTextEdit(ui.tab_3)
+log_box = QtWidgets.QListWidget(ui.tab_3)
+log_box.setMinimumSize(430, 500)
 
 grLt3.addWidget(control_grp, 0, 0, 1, 2)
 grLt3.addWidget(info_grp, 1, 0, 1, 2)
 grLt3.addWidget(glob_grp_c, 2, 0, 1, 1)
 grLt3.addWidget(glob_grp_t, 2, 1, 1, 1)
-grLt3.addWidget(textEdit, 3, 0, 1, 2)
+grLt3.addWidget(log_box, 0, 2, 3, 1)
 
 spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 grLt3.addItem(spacerItem, 2, 0, 1, 2)

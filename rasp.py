@@ -51,6 +51,9 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("Расписание")
         MainWindow.resize(1800, 980)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.showTime)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.centralwidget)
