@@ -1,6 +1,7 @@
 import sys
 import time
 import random
+import traceback
 from logging import raiseExceptions
 
 from PyQt5 import QtCore, QtGui, QtWidgets, QtTest
@@ -25,11 +26,12 @@ color_error_ = QColor(255, 0, 0)
 color_error1_ = QColor(255, 123, 123)
 color_error_light_ = QColor(255, 200, 200)
 
-log = []
+prog = [] # тут хранится программа каждого предмета в каждом классе
 teach = []
 clas = []
 urok = []
-prog = [] # тут хранится программа каждого предмета в каждом классе
+must_push = [] # те, кто 100% ставятся в определённый день
+log = []
 
 pred_example = {"Р": 0, "И": 0, "М": 0, "Ф": 0, "Х": 0, "О": 0}
 print(pred_example)
@@ -45,15 +47,20 @@ class G:
     info = False
     run = False
     start = True
-    back = False
+    check = False
+    type_check = ''
+
+    back = False # Если True - алгоритм откатывается
+    #back = True
+    error_stop = False # Значение устанавливается вручную. Когда True, ошибка останавливает алгоритм. Нужно для исследований
+    #error_stop = True
 
     cI = 0
     ctI = 0
     les = 0
 
     visual = True # Если True, вырисовывается последние изменения
-
-    check = False
+    #visual = False
     days = 4
     lessons = days * 2
     error = False
@@ -67,11 +74,12 @@ class Urok:
         self.pred = pred
         self.teach = teach
         self.num_teach = 0
-    def set(self, cI, ctI, les):
+    def set(self, cI, ctI, les, rec):
+        #print(cI, ctI, les, rec, G.type_check)
         t = clas[cI].teach[ctI]
-        tip = 1
-        if t.prior[les] >= 1000:
-            tip = 4
+        tip = 'SET_UROK'
+        if rec:
+            tip = 'SET_UROK_REC'
         log.append(Log(tip, [cI, ctI, les, t.prior[les]]))
         urok[cI][les].teach = t.i
         t.hour -= 1
@@ -90,12 +98,12 @@ class Teach1:
         self.solo = solo # Если True - в программе всего одна пара и препод может вести у любого класса этого номера
         self.friend = -1
     def need_log(self, i, i1):
-        log.append(Log(2, [i, i1]))
+        log.append(Log('NEED_CT', [i, i1]))
         self.need = True
     def prior_log(self, cI, j, les, prior):
-        tip = 0
+        tip = 'SET_PRIOR'
         if prior == -117:
-            tip = 5
+            tip = 'SET_PRIOR_CRIT'
         log.append(Log(tip, [cI, j, les, self.prior[les], prior]))
         self.prior[les] = prior
 
@@ -125,8 +133,14 @@ class Teach:
         self.need = False   #Если True, то обязатеьно куда-то впихнуть
         self.work = [] #True, если может работать в этот день
     def need_log(self):
-        log.append(Log(3, [self.i]))
+        log.append(Log('NEED_T', [self.i]))
         self.need = True
+
+class Must_push:
+    def __init__(self, cI, ctI, les):
+        self.cI = cI
+        self.ctI = ctI
+        self.les = les
 
 class Log:
     # 0: Вставка приоритета
@@ -138,41 +152,37 @@ class Log:
         self.tip = tip
         self.info = info
         import qt_run
-        s = str(tip) + ' ' + str(info)
+        s = tip + '. '
         color = color1_
         try:
-            if tip == 0:
+            if tip == 'SET_PRIOR':
                 c = clas[info[0]]
                 s = ('PRIOR. Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
-                     '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]))
+                     '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]) + ' -> ' + str(info[4]))
                 color = color0_
-            elif tip == 1:
+            elif tip == 'SET_UROK':
                 c = clas[info[0]]
-                s = ('UROK. Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
+                s += ('Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
                      '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]))
                 color = color2_
-            elif tip == 2:
+            elif tip == 'NEED_CT':
                 c = clas[info[0]]
-                s = ('NEED CLASS. Кл: ' + str(c.num) + '-' + str(c.name) +
+                s += ('Кл: ' + str(c.num) + '-' + str(c.name) +
                      '; Уч: ' + teach[c.teach[info[1]].i].name)
-            elif tip == 2:
+            elif tip == 'NEED_T':
+                s += ('Уч: ' + teach[info[0]].name)
+            elif tip == 'SET_UROK_REC':
                 c = clas[info[0]]
-                s = ('NEED CLASS. Кл: ' + str(c.num) + '-' + str(c.name) +
-                     '; Уч: ' + teach[c.teach[info[1]].i].name)
-            elif tip == 3:
-                s = ('NEED TEACH. Уч: ' + teach[info[0]].name)
-            elif tip == 4:
-                c = clas[info[0]]
-                s = ('UROK. Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
+                s += ('Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
                      '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]))
                 color = color3_
-            elif tip == 5:
+            elif tip == 'SET_PRIOR_CRIT':
                 c = clas[info[0]]
-                s = ('PRIOR. Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
-                     '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]))
+                s += ('Кл: ' + str(c.num) + '-' + str(c.name) + '; Ур: ' + str(info[2]) +
+                     '; Уч: ' + teach[c.teach[info[1]].i].name + '; Приор: ' + str(info[3]) + ' -> ' + str(info[4]))
                 color = color_error_light_
         except Exception as e:
-            print(e)
+            traceback.format_exc()
             print(tip, info)
         num = len(log)
         s1 = ' '
@@ -188,6 +198,6 @@ class Log:
             label.setBackground(color)
             qt_run.log_box.addItem(label)
         except Exception as e:
-            print(e)
+            traceback.format_exc()
 
 

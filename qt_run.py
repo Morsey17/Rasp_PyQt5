@@ -20,6 +20,7 @@ g.but_del[I].setObjectName("pushButton_2")
 g.but_del[I].setText(_translate("MainWindow", "Удалить"))
 #"""
 
+
 grp_clas = ui.grp_clas
 grp_clas_ = ui.grp_clas_
 grp_clas_u = ui.grp_clas_u
@@ -109,7 +110,13 @@ def click(obj, tip):
             i = I
             for t in clas[i].teach:
                 try:
-                    lbl_teach_[t.i].setText(str(t.hour) + '/' + str(t.maxHour))
+                    num = 0
+                    if t.hour > 0:
+                        for d in range(G.days):
+                            if ((urok[i][d * 2].teach < 0 and t.prior[d * 2] > 0)
+                                    or (urok[i][d * 2 + 1].teach < 0 and t.prior[d * 2 + 1] > 0)):
+                                num += 1
+                    lbl_teach_[t.i].setText(str(num) + '/' + str(t.hour) + '/' + str(t.maxHour))
                     lbl_teach[t.i].setStyleSheet("background-color:" + color2)
                     lbl_teach_[t.i].setStyleSheet("background-color:" + color2)
                 except:
@@ -123,7 +130,8 @@ def click(obj, tip):
                     lbl_teach_[t.i].setText(str(t.prior[j]))
                     lbl_teach[t.i].setStyleSheet("background-color:" + color2)
                     lbl_teach_[t.i].setStyleSheet("background-color:" + color2)
-                except:
+                except Exception:
+                    traceback.format_exc()
                     print("Буда")
 
 
@@ -131,19 +139,22 @@ def run_script():
     import visual_func
     visual_func.clear_lbl()
     G.run = not G.run
-    G.steps = 10000
+    G.back = False
+    G.steps = -1
 
 
 def step_script():
     import visual_func
     visual_func.clear_lbl()
     G.run = True
+    G.back = False
     G.steps = 1
 
 def step100_script():
     import visual_func
     visual_func.clear_lbl()
     G.run = True
+    G.back = False
     G.steps = 100
 
 def back_script():
@@ -328,7 +339,8 @@ def load_pred():
             val = 0
             try:
                 val = int(ui.tableWidget.item(j, i - 5).text())
-            except:
+            except Exception:
+                traceback.format_exc()
                 val = 0
             prog[i - 5][p] = val
 
@@ -371,7 +383,7 @@ def load_load():
                         break
                 I += 2
         except Exception as e:
-            print(e)
+            traceback.format_exc()
             print("Беда с", t.name)
     """
         for i in range(len(teach)):
@@ -496,6 +508,9 @@ glob_lt_t.setContentsMargins(0, 0, 0, 0)
 glob_lt_t.setObjectName("grLt")
 glob_lt_t.setSpacing(0)
 ####
+textEdit_info = QtWidgets.QTextEdit(glob_grp_c)
+glob_lt_c.addWidget(textEdit_info, 10, 0, 10, 10)
+###
 
 #self.layout.append(QtWidgets.QGridLayout(self.group[i + 1]))
 
@@ -557,6 +572,30 @@ butonBack.setObjectName("pushButt")
 butonBack.clicked.connect(back_script)
 butonBack.setText("Назад")
 control_lt.addWidget(butonBack, 0, 4, 1, 1)
+
+def script_error_stop(checked):
+    if checked:
+        G.error_stop = True
+    else:
+        G.error_stop = False
+
+
+def script_visual(checked):
+    if checked:
+        G.visual = True
+    else:
+        G.visual = False
+
+
+checkBox_error_stop = QtWidgets.QCheckBox(control_grp)
+checkBox_error_stop.setText( "Стоп ошибка")
+checkBox_error_stop.stateChanged.connect(script_error_stop)
+control_lt.addWidget(checkBox_error_stop, 0, 5, 1, 1)
+
+checkBox_visual = QtWidgets.QCheckBox(control_grp)
+checkBox_visual.setText( "Визуал")
+checkBox_visual.stateChanged.connect(script_visual)
+control_lt.addWidget(checkBox_visual, 0, 6, 1, 1)
 
 log_box = QtWidgets.QListWidget(ui.tab_3)
 log_box.setMinimumSize(430, 500)

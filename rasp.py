@@ -52,7 +52,6 @@ class Ui_MainWindow(object):
         MainWindow.resize(1800, 980)
 
         self.timer = QTimer()
-        self.timer.timeout.connect(self.showTime)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -195,10 +194,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        #self.timer = QTimer()
-        #self.timer.timeout.connect(self.update_cursor_position)
-        #self.timer.start(100)
 
         self.label4 = QtWidgets.QLabel(self.tab)
         self.label4.setGeometry(QtCore.QRect(100, 100, 1000, 100))
