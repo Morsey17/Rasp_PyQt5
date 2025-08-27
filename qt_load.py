@@ -64,6 +64,7 @@ def open(self, filename = None):
                         g.layout[0].addWidget(g.edit1[I], I + 1, 2, 1, 1)
 
                         g.but.append([])
+                        g.but_indicator.append([])
 
                         for i in range(G.days):
                             g.group.append(QtWidgets.QGroupBox(ui.scrollAreaWidgetContents))
@@ -83,11 +84,14 @@ def open(self, filename = None):
 
                         for d in range(G.days):
                             for i1 in range(2):
+                                g.but_indicator[I].append(False)
                                 g.but[I].append(QtWidgets.QPushButton(g.group[d + 1]))
                                 g.but[I][d * 2 + i1].setObjectName("pushButton_2")
                                 g.but[I][d * 2 + i1].setMinimumWidth(35)
                                 g.but[I][d * 2 + i1].setFont(font)
                                 g.but[I][d * 2 + i1].setText(_translate("MainWindow", ""))
+                                g.but[I][d * 2 + i1].clicked.connect(lambda a=0, b=I1, c=I, u=d * 2 + i1: blocked_teach(a, b, c, u))
+                                g.but[I][d * 2 + i1].setStyleSheet("background-color:" + color_null)
                                 g.layout[d + 1].addWidget(g.but[I][d * 2 + i1], I + 1, i1, 1, 1)
                 elif (l1 < l2):
                     for I in range(l2 - 1, l1 - 1, -1):
@@ -281,13 +285,17 @@ def add_teach(a, i):
     g.layout[0].addWidget(g.edit1[I], I + 1, 2, 1, 1)
 
     g.but.append([])
+    g.but_indicator.append([])
     for d in range(G.days):
         for i1 in range(2):
+            g.but_indicator[I].append(False)
             g.but[I].append(QtWidgets.QPushButton(g.group[d + 1]))
             g.but[I][d * 2 + i1].setObjectName("pushButton_2")
             g.but[I][d * 2 + i1].setMinimumWidth(35)
             g.but[I][d * 2 + i1].setFont(font)
             g.but[I][d * 2 + i1].setText(_translate("MainWindow", ""))
+            g.but[I][d * 2 + i1].clicked.connect(lambda a=0, b=I1, c=I, u=d * 2 + i1: blocked_teach(a, b, c, u))
+            g.but[I][d * 2 + i1].setStyleSheet("background-color:" + color_null)
             g.layout[d + 1].addWidget(g.but[I][d * 2 + i1], I + 1, i1, 1, 1)
 
 
@@ -312,6 +320,16 @@ def delete_teach(a, i, I):
     del g.but[-1]
 
 
+def blocked_teach(a, i, I, urok):
+    g = group_pred[i]
+    if g.but_indicator[I][urok]:
+        g.but[I][urok].setStyleSheet("background-color:" + color_null)
+    else:
+        g.but[I][urok].setStyleSheet("background-color:" + color_error)
+
+    g.but_indicator[I][urok] = not g.but_indicator[I][urok]
+
+
 
 
 class Group_pred:
@@ -326,6 +344,7 @@ class Group_pred:
         self.edit = []
         self.edit1 = []
         self.but = []
+        self.but_indicator = []
         self.space = []
 
         self.group.append(QtWidgets.QGroupBox(ui.scrollAreaWidgetContents))

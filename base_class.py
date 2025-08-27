@@ -12,6 +12,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 
+color_null = "rgb(220, 220, 220)"
 color0 = "rgb(255, 255, 255)"
 color1 = "rgb(255, 255, 200)"
 color2 = "rgb(255, 255, 127)"
@@ -23,7 +24,7 @@ color1_ = QColor(255, 255, 200)
 color2_ = QColor(255, 255, 127)
 color3_ = QColor(200, 200, 200)
 color_error_ = QColor(255, 0, 0)
-color_error1_ = QColor(255, 123, 123)
+color_error1_ = QColor(255, 127, 127)
 color_error_light_ = QColor(255, 200, 200)
 
 prog = [] # тут хранится программа каждого предмета в каждом классе
@@ -34,7 +35,7 @@ must_push = [] # те, кто 100% ставятся в определённый 
 log = []
 
 pred_example = {"Р": 0, "И": 0, "М": 0, "Ф": 0, "Х": 0, "О": 0}
-print(pred_example)
+#print(pred_example)
 
 
 pred = ["Р", "И", "М", "Ф", "Х", "О"]
@@ -49,6 +50,10 @@ class G:
     start = True
     check = False
     type_check = ''
+
+    # Проверка прогресса и условия окончания алгоритма
+    set_urok_num = 0 # Количество установленных уроков
+    set_urok_num_max = 0 # Сколько нужно установить
 
     back = False # Если True - алгоритм откатывается
     #back = True
@@ -69,6 +74,10 @@ class G:
     steps = 0 # сколько осталось
     steps_num = 0 # сколько всего было сделано
 
+
+connect = []
+
+
 class Urok:
     def __init__(self, pred, teach):
         self.pred = pred
@@ -82,6 +91,7 @@ class Urok:
             tip = 'SET_UROK_REC'
         log.append(Log(tip, [cI, ctI, les, t.prior[les]]))
         urok[cI][les].teach = t.i
+        G.set_urok_num += 1
         t.hour -= 1
         teach[t.i].hour -= 1
 

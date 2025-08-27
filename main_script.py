@@ -24,6 +24,7 @@ def otkat():
             a = l.info
             t = clas[a[0]].teach[a[1]]
             urok[a[0]][a[2]].teach = -1
+            G.set_urok_num -= 1
             t.hour += 1
             teach[t.i].hour += 1
             lbl_clas_u[a[0]][a[2]].setText('--')
@@ -65,6 +66,7 @@ def fix_error():
 
             t = clas[a[0]].teach[a[1]]
             urok[a[0]][a[2]].teach = -1
+            G.set_urok_num -= 1
             t.hour += 1
             teach[t.i].hour += 1
             clas[a[0]].teach[a[1]].prior_log(a[0], a[1], a[2], -117)
@@ -74,6 +76,7 @@ def fix_error():
             a = l.info
             t = clas[a[0]].teach[a[1]]
             urok[a[0]][a[2]].teach = -1
+            G.set_urok_num -= 1
             lbl_clas_u[a[0]][a[2]].setText('--')
             t.hour += 1
             teach[t.i].hour += 1
@@ -311,44 +314,46 @@ if G.visual:
     qt_run.checkBox_visual.setChecked(True)
 
 def main_script():
+    G.set_urok_num_max = len(clas) * G.days * 2
     try:
         num_iter = 100
         for i in range(num_iter):
-            if G.run:
-                G.steps_num += 1
-                G.steps -= 1
-                if G.error_stop:
-                    # Работает в режиме исследования
-                    if G.back:
-                        # Откат
-                        otkat()
-                        G.error = False
-                    else:
-                        # Нормальный код по шагам
-                        if G.error:
-                            check_error()
-                            fix_error()
-                            G.run = False
+            if G.set_urok_num < G.set_urok_num_max:
+                if G.run:
+                    G.steps_num += 1
+                    G.steps -= 1
+                    if G.error_stop:
+                        # Работает в режиме исследования
+                        if G.back:
+                            # Откат
+                            otkat()
+                            G.error = False
                         else:
+                            # Нормальный код по шагам
+                            if G.error:
+                                check_error()
+                                fix_error()
+                                G.run = False
+                            else:
+                                check_prior()
+                                if G.error == False:
+                                    main_check()
+                                else:
+                                    G.run = False
+
+                    else:
+                        # Быстрый код
                             check_prior()
                             if G.error == False:
                                 main_check()
                             else:
-                                G.run = False
-
-                else:
-                    # Быстрый код
-                        check_prior()
-                        if G.error == False:
-                            main_check()
-                        else:
-                            if G.visual:
-                                check_error()
-                            fix_error()
+                                if G.visual:
+                                    check_error()
+                                fix_error()
 
 
-                if G.steps == 0:
-                    G.run = False
+                    if G.steps == 0:
+                        G.run = False
     except Exception:
         #print(e)
         print('ТУТ')

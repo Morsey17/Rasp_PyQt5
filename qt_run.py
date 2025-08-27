@@ -106,6 +106,17 @@ def click(obj, tip):
                 else:
                     break
 
+        if stop == False:
+            for i in range(len(lbl_teach)):
+                if obj == lbl_teach[i]:
+                    if tip == 0:
+                        type_click = 3
+                        I = i
+                    stop = True
+                    for j in teach[I].clas:
+                        lbl_clas[j.i].setStyleSheet("background-color:" + color2)
+                    break
+
         if type_click == 1:
             i = I
             for t in clas[i].teach:
@@ -366,21 +377,43 @@ def load_load():
                 p = prog[num_clas - 5][t.pred]
                 #"""
                 solo = False
+                checkConnect = False
                 if (p == 1):
                     solo = True
                 else:
                     if (t.load[I + 1] == '('):
+                        solo = False
                         p = int(t.load[I + 2])
                         I += 3
+                        checkConnect = True
                 #"""
                 nice = False
-                for cI, c in enumerate(clas):
-                    if (c.num == num_clas) and (c.prog[t.pred] - p >= 0):
-                        nice = True
-                        c.prog[t.pred] = c.prog[t.pred] - p
-                        c.teach.append(Teach1(t.i, t.pred, p, solo))
-                        t.clas.append(Clas1(cI, len(c.teach) - 1))
-                        break
+                if checkConnect:
+                    for cI, c in enumerate(clas):
+                        if c.prog[t.pred] - p >= 0:
+                            print("A")
+                            for teach1 in c.teach:
+                                if t.i == teach1.i:
+                                    break
+                            else:
+                                print("B")
+                                nice = True
+                                c.prog[t.pred] = c.prog[t.pred] - p
+                                c.teach.append(Teach1(t.i, t.pred, p, solo))
+                                t.clas.append(Clas1(cI, len(c.teach) - 1))
+                                print('HMMM')
+                                break
+                else:
+                    for cI, c in enumerate(clas):
+                        if c.num == num_clas and c.prog[t.pred] - p == 0:
+                            nice = True
+                            c.prog[t.pred] = 0  #c.prog[t.pred] - p
+                            c.teach.append(Teach1(t.i, t.pred, p, solo))
+                            t.clas.append(Clas1(cI, len(c.teach) - 1))
+                            break
+                if nice == False:
+                    print("БЕДААААААААА!!!!")
+                    print(t.name)
                 I += 2
         except Exception as e:
             traceback.format_exc()
