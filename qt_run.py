@@ -356,11 +356,13 @@ def load_pred():
             prog[i - 5][p] = val
 
 def load_load():
+    """"""
     for i in range(len(clas)):
         c = clas[i]
         c.i = i
         for p in pred:
             c.prog[p] = prog[c.num - 5][p]
+
 
     for i in range(len(teach)):
         t = teach[i]
@@ -375,7 +377,7 @@ def load_load():
                     num_clas = 10 + int(t.load[I + 1])
                     I += 1
                 p = prog[num_clas - 5][t.pred]
-                #"""
+
                 solo = False
                 checkConnect = False
                 if (p == 1):
@@ -386,7 +388,7 @@ def load_load():
                         p = int(t.load[I + 2])
                         I += 3
                         checkConnect = True
-                #"""
+
                 nice = False
                 if checkConnect:
                     for cI, c in enumerate(clas):

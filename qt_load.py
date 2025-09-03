@@ -14,13 +14,14 @@ font.setPointSize(6)
 _translate = QtCore.QCoreApplication.translate
 
 
-def open(self, filename = None):
+
+def open_file(self, filename = None):
     if filename == None:
         print("OPEN")
         filename, _ = QFileDialog.getOpenFileName(None, "Open File", ".",
                     "Файлы расписания (*.rsp *.rasp);;Файлы расписания старой версии (*.rasp)")
     if filename:
-        file = ui.open(filename)
+        file = open(filename, 'r')
         print(filename)
         if filename[-4:] == ".rsp":
 
@@ -188,7 +189,196 @@ def open(self, filename = None):
             file.close()
 
 
-def save(self):
+def open_files(self):
+    filenames, _ = QFileDialog.getOpenFileNames(
+        None,
+        "QFileDialog.getOpenFileNames()",
+        "",
+        "Файлы расписания (*.rtl)",
+    )
+    # ПОКА ТАК!
+    DAYS = 5
+    POTOK = 0
+    G.days = DAYS
+    if filenames:
+        for filename in filenames:
+            print(filename)
+            file = open(filename, 'r')
+            if filename[-4:] == ".rtl":
+                try:
+                    n = int(file.readline()[:-1])
+                    pred = file.readline()[:-1]
+                    a = file.readline()[:-1]
+                    a = file.readline()[:-1]
+
+                    for g in group_pred:
+                        for i in range(len(g.but_del)):
+                            g.but_del[-1].deleteLater()
+                            g.edit[-1].deleteLater()
+                            g.edit1[-1].deleteLater()
+                            del g.but_del[-1]
+                            del g.edit[-1]
+                            del g.edit1[-1]
+
+                            for d in range(G.days):
+                                for i1 in range(2):
+                                    g.but[-1][-1].deleteLater()
+                                    del g.but[-1][-1]
+                            del g.but[-1]
+
+                    I = 0
+                    g = None
+                    for i, g1 in enumerate(group_pred):
+                        if g1.pred == pred:
+                            g = g1
+                            I = i
+                            break
+                    i = I
+
+                    for I in range(n):
+
+                        #I = len(g.but_del)
+                        g.but_del.append(QtWidgets.QPushButton(g.group[0]))
+                        g.but_del[I].setFont(font)
+                        g.but_del[I].setObjectName("pushButton_2")
+                        g.but_del[I].setText(_translate("MainWindow", "Удалить"))
+                        g.but_del[I].clicked.connect(lambda a=0, b=i, c=I: delete_teach(a, b, c))
+                        g.layout[0].addWidget(g.but_del[I], I + 1, 0, 1, 1)
+                        g.edit.append(QtWidgets.QLineEdit(g.group[0]))
+                        g.edit[I].setText(file.readline()[:-1])
+                        g.edit[I].setObjectName("lineEdit")
+                        g.layout[0].addWidget(g.edit[I], I + 1, 1, 1, 1)
+                        g.edit1.append(QtWidgets.QLineEdit(g.group[0]))
+                        for i1 in range(4):
+                            s = file.readline()[:-1]
+                            if i1 == POTOK:
+                                g.edit1[I].setText(s)
+                        g.edit1[I].setObjectName("lineEdit")
+                        g.layout[0].addWidget(g.edit1[I], I + 1, 2, 1, 1)
+
+                        g.but.append([])
+                        g.but_indicator.append([])
+
+                        I1 = i
+
+                        for i1 in range(G.days):
+                            g.group.append(QtWidgets.QGroupBox(ui.scrollAreaWidgetContents))
+                            g.group[i1 + 1].setTitle("")
+                            g.group[i1 + 1].setObjectName("groupBox")
+                            ui.gridTechLoad.addWidget(g.group[i1 + 1], I1, i1 + 1, 1, 1)
+
+                            g.layout.append(QtWidgets.QGridLayout(g.group[i1 + 1]))
+                            g.layout[i1 + 1].setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+                            g.layout[i1 + 1].setContentsMargins(2, 2, 2, 2)
+                            g.layout[i1 + 1].setSpacing(0)
+                            g.layout[i1 + 1].setObjectName("gridLayout")
+                            g.space.append(QtWidgets.QSpacerItem(20, 26, QtWidgets.QSizePolicy.Minimum,
+                                                                 QtWidgets.QSizePolicy.Fixed))
+                            g.layout[i1 + 1].addItem(g.space[i1], 0, 0, 1, 2)
+
+                        for d in range(G.days):
+                            for i1 in range(2):
+                                g.but_indicator[I].append(False)
+                                g.but[I].append(QtWidgets.QPushButton(g.group[d + 1]))
+                                g.but[I][d * 2 + i1].setObjectName("pushButton_2")
+                                g.but[I][d * 2 + i1].setMinimumWidth(35)
+                                g.but[I][d * 2 + i1].setFont(font)
+                                g.but[I][d * 2 + i1].setText(_translate("MainWindow", ""))
+                                g.but[I][d * 2 + i1].clicked.connect(
+                                    lambda a=0, b=I1, c=I, u=d * 2 + i1: blocked_teach(a, b, c, u))
+                                g.but[I][d * 2 + i1].setStyleSheet("background-color:" + color_null)
+                                g.layout[d + 1].addWidget(g.but[I][d * 2 + i1], I + 1, i1, 1, 1)
+
+                    """for i in range(len(group_pred)):
+                        g = group_pred[i]
+                        I1 = i
+                        l1 = int(file.readline()[:-1])
+                        l2 = len(g.but_del)
+                        l = l1
+    
+                        if (l1 > l2):
+                            for i2 in range(l2, l1):
+                                I = len(g.but_del)
+                                g.but_del.append(QtWidgets.QPushButton(g.group[0]))
+                                g.but_del[I].setFont(font)
+                                g.but_del[I].setObjectName("pushButton_2")
+                                g.but_del[I].setText(_translate("MainWindow", "Удалить"))
+                                g.but_del[I].clicked.connect(lambda a=0, b=i, c=I: delete_teach(a, b, c))
+                                g.layout[0].addWidget(g.but_del[I], I + 1, 0, 1, 1)
+                                g.edit.append(QtWidgets.QLineEdit(g.group[0]))
+                                g.edit[I].setText("")
+                                g.edit[I].setObjectName("lineEdit")
+                                g.layout[0].addWidget(g.edit[I], I + 1, 1, 1, 1)
+                                g.edit1.append(QtWidgets.QLineEdit(g.group[0]))
+                                g.edit1[I].setText("")
+                                g.edit1[I].setObjectName("lineEdit")
+                                g.layout[0].addWidget(g.edit1[I], I + 1, 2, 1, 1)
+    
+                                g.but.append([])
+                                g.but_indicator.append([])
+    
+                                for i in range(G.days):
+                                    g.group.append(QtWidgets.QGroupBox(ui.scrollAreaWidgetContents))
+                                    g.group[i + 1].setTitle("")
+                                    g.group[i + 1].setObjectName("groupBox")
+                                    ui.gridTechLoad.addWidget(g.group[i + 1], I1, i + 1, 1, 1)
+    
+                                    g.layout.append(QtWidgets.QGridLayout(g.group[i + 1]))
+                                    g.layout[i + 1].setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+                                    g.layout[i + 1].setContentsMargins(2, 2, 2, 2)
+                                    g.layout[i + 1].setSpacing(0)
+                                    g.layout[i + 1].setObjectName("gridLayout")
+    
+                                    g.space.append(QtWidgets.QSpacerItem(20, 26, QtWidgets.QSizePolicy.Minimum,
+                                                                         QtWidgets.QSizePolicy.Fixed))
+                                    g.layout[i + 1].addItem(g.space[i], 0, 0, 1, 2)
+    
+                                for d in range(G.days):
+                                    for i1 in range(2):
+                                        g.but_indicator[I].append(False)
+                                        g.but[I].append(QtWidgets.QPushButton(g.group[d + 1]))
+                                        g.but[I][d * 2 + i1].setObjectName("pushButton_2")
+                                        g.but[I][d * 2 + i1].setMinimumWidth(35)
+                                        g.but[I][d * 2 + i1].setFont(font)
+                                        g.but[I][d * 2 + i1].setText(_translate("MainWindow", ""))
+                                        g.but[I][d * 2 + i1].clicked.connect(lambda a=0, b=I1, c=I, u=d * 2 + i1: blocked_teach(a, b, c, u))
+                                        g.but[I][d * 2 + i1].setStyleSheet("background-color:" + color_null)
+                                        g.layout[d + 1].addWidget(g.but[I][d * 2 + i1], I + 1, i1, 1, 1)
+                        elif (l1 < l2):
+                            for I in range(l2 - 1, l1 - 1, -1):
+    
+                                g.but_del[-1].deleteLater()
+                                g.edit[-1].deleteLater()
+                                g.edit1[-1].deleteLater()
+                                del g.but_del[-1]
+                                del g.edit[-1]
+                                del g.edit1[-1]
+    
+                                for d in range(G.days):
+                                    for i1 in range(2):
+                                        g.but[-1][-1].deleteLater()
+                                        del g.but[-1][-1]
+                                del g.but[-1]
+    
+                        for i in range(l):
+                            try:
+                                g.edit[i].setText(file.readline()[:-1])
+                            except:
+                                a = 0
+                            try:
+                                g.edit1[i].setText(file.readline()[:-1])
+                            except:
+                                a = 0"""
+                    file.close()
+                except:
+                    print("БЕДА")
+                    try:
+                        file.close()
+                    except:
+                        pass
+
+
+def save_file(self):
     print("SAVE")
     filename, _ = QFileDialog.getSaveFileName(None, "Save File", ".", "Файл расписания (*.rsp))")
 
@@ -409,8 +599,9 @@ def start():
         for column in range(ui.tableWidget.columnCount()):
             ui.tableWidget.setItem(row, column, QtWidgets.QTableWidgetItem(''))
 
-    ui.action1.triggered.connect(save)
-    ui.action2.triggered.connect(open)
+    ui.action1.triggered.connect(save_file)
+    ui.action2.triggered.connect(open_file)
+    ui.action3.triggered.connect(open_files)
 
     ui.lineEdit_days.setText(str(G.days))
 

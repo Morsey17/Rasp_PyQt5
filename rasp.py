@@ -184,11 +184,11 @@ class Ui_MainWindow(object):
         self.menu.setObjectName("menu")
         MainWindow.setMenuBar(self.menubar)
         self.action1 = QtWidgets.QAction(MainWindow)
-        self.action1.setObjectName("action1")
         self.action2 = QtWidgets.QAction(MainWindow)
-        self.action2.setObjectName("action2")
+        self.action3 = QtWidgets.QAction(MainWindow)
         self.menu.addAction(self.action1)
         self.menu.addAction(self.action2)
+        self.menu.addAction(self.action3)
         self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -307,14 +307,15 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Генерация"))
 
         self.menu.setTitle(_translate("MainWindow", "Файл"))
-        self.action1.setText(_translate("MainWindow", "Сохранить"))
-        self.action2.setText(_translate("MainWindow", "Открыть"))
+        self.action1.setText(_translate("MainWindow", "Сохранить файл"))
+        self.action2.setText(_translate("MainWindow", "Открыть файл"))
+        self.action3.setText(_translate("MainWindow", "Открыть файлы"))
 
-    def open(self, filename):
-        return open(filename, 'r')
+#    def open(self, filename):
 
-    def save(self, filename):
-        return open(filename, 'w')
+#    def save(self, filename):
+#        return open(filename, 'w')
+
 
 import sys
 
